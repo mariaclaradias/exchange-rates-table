@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/plugin-syntax-jsx": "^7.22.5",
     "@phosphor-icons/react": "^2.0.10",
     "@tanstack/react-table": "^8.9.3",
     "@testing-library/jest-dom": "^5.17.0",
