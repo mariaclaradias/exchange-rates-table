@@ -1,20 +1,9 @@
-import styled from 'styled-components';
 import { Table } from './components/table/Table';
 import logo from './assets/logo.png';
+import { FC } from 'react';
+import { Logo, Main } from './App.styles';
 
-const Main = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-block: 32px;
-  align-items: center;
-`;
-
-const Logo = styled.img`
-  padding-bottom: 12px;
-`;
-
-function App() {
+const App: FC = () => {
   return (
     <Main>
       <div>
@@ -23,6 +12,6 @@ function App() {
       </div>
     </Main>
   );
-}
+};
 
 export default App;

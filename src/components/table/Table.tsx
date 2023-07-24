@@ -7,78 +7,27 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { FC, useState } from 'react';
-import styled from 'styled-components';
 import { getExchangeRate } from '../../service/getExchangeRate';
 import { useEffectOnce } from 'usehooks-ts';
 import { ArrowCircleDown, ArrowCircleUp } from '@phosphor-icons/react';
 import RefreshButton from '../refresh-button/RefreshButton';
 import { Tooltip } from 'react-tooltip';
 import { format } from 'date-fns';
+import {
+  BaseTable,
+  IconButtonWrapper,
+  TableBodyRow,
+  TableHeaderCell,
+  TableHeaderRow,
+  TableTitle,
+  TableWrapper,
+} from './Table.styles';
 
-const BaseTable = styled.table`
-  border-collapse: collapse;
-  box-shadow: 9px 7px 18px 0px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-`;
-
-const TableHeaderRow = styled.tr`
-  th:first-child {
-    padding-left: 30px;
-  }
-  th:last-child {
-    padding-right: 30px;
-  }
-  th {
-    padding: 30px 30px;
-  }
-`;
-
-const TableHeaderCell = styled.th`
-  color: #003475;
-  min-width: calc(100% + 50px);
-`;
-
-const TableBodyRow = styled.tr`
-  border-bottom: 1px solid #eee;
-
-  td:first-child {
-    padding-left: 30px;
-  }
-  td:last-child {
-    padding-right: 30px;
-  }
-  td {
-    padding: 20px 30px;
-  }
-`;
-
-const TableTitle = styled.div`
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-`;
-
-const IconButtonWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: 4px;
-  border-radius: 16px;
-  padding: 2px;
-  &:hover {
-    background-color: rgba(223, 220, 220, 0.54);
-  }
-`;
-
-const TableWrapper = styled.div`
-  display: flex;
-  gap: 12px;
-`;
-
-type ExchangeRate = {
+interface ExchangeRate {
   currency: string;
   value: number;
   date: string;
-};
+}
 
 const columnHelper = createColumnHelper<ExchangeRate>();
 
@@ -188,7 +137,11 @@ export const Table: FC = () => {
           ))}
         </tbody>
       </BaseTable>
-      <a data-tooltip-id="tooltip" data-tooltip-content="Recarregar dados">
+      <a
+        href="/#"
+        data-tooltip-id="tooltip"
+        data-tooltip-content="Recarregar dados"
+      >
         <RefreshButton onClick={() => getExchangeRateData()} />
       </a>
     </TableWrapper>
