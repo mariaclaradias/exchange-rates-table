@@ -27,7 +27,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "report": "react-scripts test --coverage",
     "eject": "react-scripts eject"
+  },
+  "jest": {
+    "resetMocks": false
   },
   "eslintConfig": {
     "extends": [

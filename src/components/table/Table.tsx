@@ -67,18 +67,18 @@ export const Table: FC = () => {
     getExchangeRateData();
   });
 
-  const getExchangeRateData = () => {
-    getExchangeRate().then((r) => {
-      if (!r) return;
-      const formattedData = Object.entries(r.rates).map<ExchangeRate>(
-        ([currency, value]) => ({
-          currency,
-          value,
-          date: format(new Date(r.timestamp), "dd/MM/yyyy 'às' hh:mm"),
-        })
-      );
-      setData(formattedData);
-    });
+  const getExchangeRateData = async () => {
+    const r = await getExchangeRate();
+
+    if (!r) return;
+    const formattedData = Object.entries(r.rates).map<ExchangeRate>(
+      ([currency, value]) => ({
+        currency,
+        value,
+        date: format(new Date(r.timestamp), "dd/MM/yyyy 'às' hh:mm"),
+      })
+    );
+    setData(formattedData);
   };
 
   return (
