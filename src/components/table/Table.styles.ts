@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const BaseTable = styled.table`
   border-collapse: collapse;
@@ -57,4 +57,26 @@ export const IconButtonWrapper = styled.div`
 export const TableWrapper = styled.div`
   display: flex;
   gap: 12px;
+  flex-direction: column;
+  align-items: self-end;
+`;
+
+export const PaginationButtons = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+  padding-top: 8px;
+`;
+
+export const PaginationTitle = styled.div`
+  flex-grow: 1;
+  align-self: center;
+  text-align-last: center;
+  font-weight: 600;
+  color: gray;
+  transform: translate(34px, 0px);
+`;
+
+export const TableFooter = styled.div`
+  display: flex;
 `;

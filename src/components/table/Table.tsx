@@ -3,6 +3,7 @@ import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
@@ -10,18 +11,21 @@ import { FC, useState } from "react";
 import { getExchangeRate } from "../../service/getExchangeRate";
 import { useEffectOnce } from "usehooks-ts";
 import { ArrowCircleDown, ArrowCircleUp } from "@phosphor-icons/react";
-import RefreshButton from "../refresh-button/RefreshButton";
 import { Tooltip } from "react-tooltip";
 import { format } from "date-fns";
 import {
   BaseTable,
   IconButtonWrapper,
+  PaginationButtons,
+  PaginationTitle,
   TableBodyRow,
+  TableFooter,
   TableHeaderCell,
   TableHeaderRow,
   TableTitle,
   TableWrapper,
 } from "./Table.styles";
+import IconButton from "../icon-button/IconButton";
 
 interface ExchangeRate {
   currency: string;
@@ -61,6 +65,7 @@ export const Table: FC = () => {
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
   });
 
   useEffectOnce(() => {
@@ -84,67 +89,91 @@ export const Table: FC = () => {
   return (
     <TableWrapper>
       <Tooltip id="tooltip" />
-      <BaseTable>
-        <thead>
-          {baseTable.getHeaderGroups().map((headerGroup) => (
-            <TableHeaderRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHeaderCell key={header.id}>
-                  {header.isPlaceholder ? null : (
-                    <TableTitle
-                      {...{
-                        className: header.column.getCanSort()
-                          ? "cursor-pointer select-none"
-                          : "",
-                        onClick: header.column.getToggleSortingHandler(),
-                      }}
-                    >
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                      {{
-                        asc: (
-                          <IconButtonWrapper>
-                            <ArrowCircleUp size={20} weight="bold" />
-                          </IconButtonWrapper>
-                        ),
-                        desc: (
-                          <IconButtonWrapper>
-                            <ArrowCircleDown size={20} weight="bold" />
-                          </IconButtonWrapper>
-                        ),
-                      }[header.column.getIsSorted() as string] ?? (
-                        <div style={{ width: 28, height: 24 }} />
-                      )}
-                    </TableTitle>
-                  )}
-                </TableHeaderCell>
-              ))}
-            </TableHeaderRow>
-          ))}
-        </thead>
-        <tbody>
-          {baseTable.getRowModel().rows.map((row) => (
-            <TableBodyRow key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
-                  <div>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </div>
-                </td>
-              ))}
-            </TableBodyRow>
-          ))}
-        </tbody>
-      </BaseTable>
       <a
         href="/#"
         data-tooltip-id="tooltip"
         data-tooltip-content="Recarregar dados"
       >
-        <RefreshButton onClick={() => getExchangeRateData()} />
+        <IconButton variant="refresh" onClick={() => getExchangeRateData()} />
       </a>
+
+      <div>
+        <BaseTable>
+          <thead>
+            {baseTable.getHeaderGroups().map((headerGroup) => (
+              <TableHeaderRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHeaderCell key={header.id}>
+                    {header.isPlaceholder ? null : (
+                      <TableTitle
+                        {...{
+                          className: header.column.getCanSort()
+                            ? "cursor-pointer select-none"
+                            : "",
+                          onClick: header.column.getToggleSortingHandler(),
+                        }}
+                      >
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                        {{
+                          asc: (
+                            <IconButtonWrapper>
+                              <ArrowCircleUp size={20} weight="bold" />
+                            </IconButtonWrapper>
+                          ),
+                          desc: (
+                            <IconButtonWrapper>
+                              <ArrowCircleDown size={20} weight="bold" />
+                            </IconButtonWrapper>
+                          ),
+                        }[header.column.getIsSorted() as string] ?? (
+                          <div style={{ width: 28, height: 24 }} />
+                        )}
+                      </TableTitle>
+                    )}
+                  </TableHeaderCell>
+                ))}
+              </TableHeaderRow>
+            ))}
+          </thead>
+          <tbody>
+            {baseTable.getRowModel().rows.map((row) => (
+              <TableBodyRow key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <td key={cell.id}>
+                    <div>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </div>
+                  </td>
+                ))}
+              </TableBodyRow>
+            ))}
+          </tbody>
+        </BaseTable>
+        <TableFooter>
+          <PaginationTitle>
+            {baseTable.getState().pagination.pageIndex + 1} of{" "}
+            {baseTable.getPageCount()}
+          </PaginationTitle>
+          <PaginationButtons>
+            <IconButton
+              variant="backward"
+              onClick={() => baseTable.previousPage()}
+              disabled={!baseTable.getCanPreviousPage()}
+            />
+            <IconButton
+              variant="forward"
+              onClick={() => baseTable.nextPage()}
+              disabled={!baseTable.getCanNextPage()}
+            />
+          </PaginationButtons>
+        </TableFooter>
+      </div>
     </TableWrapper>
   );
 };
