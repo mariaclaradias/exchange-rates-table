@@ -4,6 +4,15 @@ A project application developed with React.js to create a table that displays an
 
 This project was developed with React and TypeScript and was bootstrapped with Create React App. The tests were implemented with Jest and React Testing Library.
 
+## Libraries
+
+Below, is listed the other libraries used on this application:
+
+- **Styled-components**: A CSS library to build custom components in React.
+- **TanStack Table**: A headless table library to help creation of the exchange rates table.
+- **Date-fns**: A library used to format data.
+- **useHooks-ts**: A collection of utility hooks.
+
 ## Available Scripts
 
 In the project directory, you can run:
