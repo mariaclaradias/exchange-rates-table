@@ -12,10 +12,12 @@ import { getExchangeRate } from "../../service/getExchangeRate";
 import { useEffectOnce } from "usehooks-ts";
 import { ArrowCircleDown, ArrowCircleUp } from "@phosphor-icons/react";
 import { Tooltip } from "react-tooltip";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import {
   BaseTable,
+  DataInformation,
   IconButtonWrapper,
+  Link,
   PaginationButtons,
   PaginationTitle,
   TableBodyRow,
@@ -42,7 +44,7 @@ const columns = [
     size: 500,
   }),
   columnHelper.accessor("value", {
-    header: () => "Valor (em BRL)",
+    header: () => "Valor (1 EUR =)",
     cell: (info) => info.getValue(),
     size: 500,
   }),
@@ -80,7 +82,13 @@ export const Table: FC = () => {
       ([currency, value]) => ({
         currency,
         value,
-        date: format(new Date(r.timestamp), "dd/MM/yyyy 'às' hh:mm"),
+        date: format(
+          new Date(r.timestamp),
+          `${format(
+            parse(r.date, "yyyy-MM-dd", new Date()),
+            "dd/MM/yyyy"
+          )} 'às' hh:mm`
+        ),
       })
     );
     setData(formattedData);
@@ -156,6 +164,12 @@ export const Table: FC = () => {
           </tbody>
         </BaseTable>
         <TableFooter>
+          <DataInformation>
+            Data from
+            <Link rel="noreferrer" target="_blank" href="https://fixer.io/">
+              Fixer
+            </Link>
+          </DataInformation>
           <PaginationTitle>
             {baseTable.getState().pagination.pageIndex + 1} of{" "}
             {baseTable.getPageCount()}

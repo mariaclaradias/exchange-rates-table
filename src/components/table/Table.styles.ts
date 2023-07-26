@@ -63,20 +63,33 @@ export const TableWrapper = styled.div`
 
 export const PaginationButtons = styled.div`
   display: flex;
+  flex: 1;
   justify-content: flex-end;
   gap: 4px;
   padding-top: 8px;
 `;
 
 export const PaginationTitle = styled.div`
-  flex-grow: 1;
+  flex: 1;
   align-self: center;
   text-align-last: center;
   font-weight: 600;
   color: gray;
-  transform: translate(34px, 0px);
 `;
 
 export const TableFooter = styled.div`
   display: flex;
+`;
+
+export const DataInformation = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  font-weight: 600;
+  color: gray;
+`;
+
+export const Link = styled.a`
+  padding-left: 4px;
+  color: #003475;
 `;
